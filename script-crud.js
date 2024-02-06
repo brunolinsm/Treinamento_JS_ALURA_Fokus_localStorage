@@ -40,9 +40,11 @@ function criarElementoTarefa(tarefa){
     paragrafo.textContent = tarefa.descricao
 
     const botao = document.createElement('button')
-    const imagemBotao = document.createElement('img')
     botao.classList.add('app_button-edit')
-    botao.setAttribute('src','/imagens/edit.png')
+    
+    const imagemBotao = document.createElement('img')
+    imagemBotao.setAttribute('src','/imagens/edit.png')
+    
     botao.append(imagemBotao)
 
     li.append(svg)
