@@ -39,17 +39,17 @@ function criarElementoTarefa(tarefa){
     paragrafo.classList.add('app__section-task-list-item-description')
     paragrafo.textContent = tarefa.descricao
 
-    const botao = document.createElement('button')
-    botao.classList.add('app_button-edit')
+    const botaoDoItemTarefas = document.createElement('button')
+    botaoDoItemTarefas.classList.add('app_button-edit')
     
     const imagemBotao = document.createElement('img')
     imagemBotao.setAttribute('src','/imagens/edit.png')
     
-    botao.append(imagemBotao)
+    botaoDoItemTarefas.append(imagemBotao)
 
     li.append(svg)
     li.append(paragrafo)
-    li.append(botao)
+    li.append(botaoDoItemTarefas)
 
     return li
 }
