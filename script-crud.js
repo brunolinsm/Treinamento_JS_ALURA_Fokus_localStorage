@@ -6,12 +6,9 @@ const botaoCancelarFormulario = document.querySelector('.app__form-footer__butto
 const paragrafoDescricaoTarefa = document.querySelector('.app__section-active-task-description')
 const botaoRemoverTarefasConcluidas = document.querySelector('#btn-remover-concluidas')
 const botaoRemoverTodasTarefas = document.querySelector('#btn-remover-todas')
-//Esta declaracao substitui uma função condicional
 let listaTarefas = JSON.parse(localStorage.getItem('tarefas')) || []
-
 let tarefaSelecionada = null
 let liTarefaSelecionada = null
-
 
 const limparEsconderFormulario = () => {
     areaTexto.value = ''
@@ -31,12 +28,10 @@ botaoCancelarFormulario.addEventListener('click', limparEsconderFormulario)
 formularioAddTarefa.addEventListener('submit', function(evento) {
     evento.preventDefault()
     const tarefa = {descricao: areaTexto.value}
-    //Equivalente ao append para adicionar elemento em lista
     listaTarefas.push(tarefa)
     const elementoTarefa = criarElementoTarefa(tarefa)
     ulTarefas.append(elementoTarefa)
     atualizarTarefas()
-    //Textarea se refere ao campo de escrita do formulario
     areaTexto.value = ''
     formularioAddTarefa.classList.add('hidden')
 })
@@ -53,7 +48,6 @@ function criarElementoTarefa(tarefa){
             <path d="M9 16.1719L19.5938 5.57812L21 6.98438L9 18.9844L3.42188 13.4062L4.82812 12L9 16.1719Z" fill="#01080E"></path>
     </svg>`
 
-    //Item que recebe a descrição da tarefa
     const paragrafo = document.createElement('p')
     paragrafo.classList.add('app__section-task-list-item-description')
     paragrafo.textContent = tarefa.descricao
@@ -61,9 +55,8 @@ function criarElementoTarefa(tarefa){
     const botaoDoItemTarefas = document.createElement('button')
     botaoDoItemTarefas.classList.add('app_button-edit')
     botaoDoItemTarefas.onclick = () => {
-        // debugger
         const novaDescricaoTarefa = prompt('Qual é o nome da nova tarefa?')
-        // console.log('Nova descriçãoda tarefa: ', novaDescricaoTarefa)
+        
         if(novaDescricaoTarefa){
             paragrafo.textContent = novaDescricaoTarefa
             tarefa.descricao = novaDescricaoTarefa
@@ -91,7 +84,6 @@ function criarElementoTarefa(tarefa){
                     elemento.classList.remove('app__section-task-list-item-active')
                 })
             if (tarefaSelecionada == tarefa){
-                // debugger
                 paragrafoDescricaoTarefa.textContent = ''
                 tarefaSelecionada = null
                 liTarefaSelecionada = null
@@ -110,7 +102,6 @@ function criarElementoTarefa(tarefa){
     return li
 }
 
-//Recarrega tarefas salvas no localStorage para exibir na lista
 listaTarefas.forEach(tarefa => {
     const elementoTarefa = criarElementoTarefa(tarefa)
     ulTarefas.append(elementoTarefa)
@@ -127,8 +118,6 @@ document.addEventListener('FocoFinalizado', () => {
 })
 
 const removerTarefas = (somenteCompletas) => {
-    //A linha abaixo é um if ternário, faz a mesma ação das linhas 132 a 135.
-    // const seletor = somenteCompletas ? ".app__section-task-list-item-complete" : ".app__section-task-list-item"
     let seletor = ".app__section-task-list-item"
     if (somenteCompletas) {
         seletor = ".app__section-task-list-item-complete"
@@ -137,7 +126,7 @@ const removerTarefas = (somenteCompletas) => {
         elemento.remove()
     })
     paragrafoDescricaoTarefa.textContent = null
-    //Atualiza localStorage
+    
     listaTarefas = somenteCompletas ? listaTarefas.filter(tarefa => !tarefa.completa) : []
     atualizarTarefas()
 
