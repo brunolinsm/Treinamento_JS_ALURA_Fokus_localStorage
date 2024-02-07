@@ -3,9 +3,14 @@ const formularioAddTarefa = document.querySelector('.app__form-add-task')
 const areaTexto = document.querySelector('.app__form-textarea')
 const ulTarefas = document.querySelector('.app__section-task-list')
 const botaoCancelarFormulario = document.querySelector('.app__form-footer__button--cancel')
+const paragrafoDescricaoTarefa = document.querySelector('.app__section-active-task-description')
 
 //Esta declaracao substitui uma função condicional
 const listaTarefas = JSON.parse(localStorage.getItem('tarefas')) || []
+
+let tarefaSelecionada = null
+let liTarefaSelecionada = null
+
 
 const limparEsconderFormulario = () => {
     areaTexto.value = ''
@@ -74,6 +79,26 @@ function criarElementoTarefa(tarefa){
     li.append(paragrafo)
     li.append(botaoDoItemTarefas)
 
+    li.onclick = () => {
+        document.querySelectorAll('.app__section-task-list-item-active')
+            .forEach(elemento => {
+                elemento.classList.remove('app__section-task-list-item-active')
+            })
+        if (tarefaSelecionada == tarefa){
+            // debugger
+            paragrafoDescricaoTarefa.textContent = ''
+            tarefaSelecionada = null
+            liTarefaSelecionada = null
+            return
+        }
+        
+        tarefaSelecionada = tarefa
+        liTarefaSelecionada = li
+        paragrafoDescricaoTarefa.textContent = tarefa.descricao
+
+        li.classList.add('app__section-task-list-item-active')
+    }
+
     return li
 }
 
@@ -82,3 +107,11 @@ listaTarefas.forEach(tarefa => {
     const elementoTarefa = criarElementoTarefa(tarefa)
     ulTarefas.append(elementoTarefa)
 });
+
+document.addEventListener('FocoFinalizado', () => {
+    if (tarefaSelecionada && liTarefaSelecionada) {
+        liTarefaSelecionada.classList.remove('app__section-task-list-item-active')
+        liTarefaSelecionada.classList.add('app__section-task-list-item-complete')
+        liTarefaSelecionada.querySelector('button').setAttribute('disabled', 'disabled')
+    }
+})

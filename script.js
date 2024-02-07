@@ -17,7 +17,7 @@ const somBotaoPlay = new Audio('/sons/play.wav')
 const somBotaoPause = new Audio('/sons/pause.mp3')
 const somFinalContagemTempo = new Audio('/sons/beep.mp3')
 
-let contagemTempoEmSegundos = 1500
+let contagemTempoEmSegundos = 15   //Mudar depois para 1500
 let intervaloContagemTempo = null
 
 chaveMusica.addEventListener('change', function() {
@@ -30,7 +30,7 @@ chaveMusica.addEventListener('change', function() {
 })
 
 botaoFoco.addEventListener('click', () => {
-    contagemTempoEmSegundos = 1500
+    contagemTempoEmSegundos = 15   //Mudar depois para 1500
     alterarContextoPagina('foco')
     botaoFoco.classList.add('active')
 })
@@ -81,6 +81,13 @@ const contagemRegressiva = function(){
     if (contagemTempoEmSegundos <= 0){
         somFinalContagemTempo.play()
         alert('Tempo finalizado!')
+        // Evento customizado
+        const modoFocoAtivo = paginaHtml.getAttribute('data-contexto') == 'foco'
+        if (modoFocoAtivo) {
+            const evento = new CustomEvent('FocoFinalizado')
+            // Disparar evento (broadcast)
+            document.dispatchEvent(evento)
+        }
         zerar()
         return
     }
